@@ -10,10 +10,23 @@
     "cheerio": "^1.0.0-rc.5",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "ejs": "~2.6.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
-    "nodemon": "^2.0.7"
-  }
+    "nodemon": "^2.0.7",
+    "open": "^7.4.2"
+  },
+  "description": "우분투 패키지 크롤링해서 마구 다운받아버리기!",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WeeSBin/UbuntuPackageCrawling.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WeeSBin/UbuntuPackageCrawling/issues"
+  },
+  "homepage": "https://github.com/WeeSBin/UbuntuPackageCrawling#readme"
 }
