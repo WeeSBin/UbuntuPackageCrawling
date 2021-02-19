@@ -13,25 +13,37 @@ const getHtml = (url) => {
   try {
     return axios.get('https://packages.ubuntu.com' + url);
   } catch (e) {
-    console.error(e);
+      console.error(e);
   }
 };
 
 const downloadPackage = ($) => {
     const $download = $('div#pdownload th a');
-    getHtml($download.attr('href'))
-      .then(html => {
-          const $ = cheerio.load(html.data);
-          const url = $('div.cardleft li a').attr('href');
-            log(url)
-            open(url);
-      })
+    $download.each((index, element) => {
+        const architecture = $(element).text();
+        if (architecture === 'all' || architecture === 'amd64') {
+            getHtml($download.attr('href'))
+                .then(html => {
+                  const $ = cheerio.load(html.data);
+                  const url = $('div.cardleft li a').attr('href');
+                    log(url)
+                    if (url !== undefined) {
+                        open(url);
+                    }
+                })
+                .catch(reason => {
+                    if (reason.response.status === 500) {
+                        downloadPackage($);
+                    }
+                })
+            return false;
+        }
+    });
 };
 
 const getPackage = (url) => {
     getHtml(url)
         .then(html => {
-          let depends = [];
           const $ = cheerio.load(html.data);
           downloadPackage($);
           const $dependsList = $('div#pdeps').children('ul.uldep').children('li');
@@ -41,16 +53,19 @@ const getPackage = (url) => {
               } else {
                   const href = $(element).find('a').attr('href');
                   if (!downloadedPackage.includes(href)) {
-                    downloadedPackage.push(href)
-                      depends.push(href);
+                      downloadedPackage.push(href)
                       getPackage(href)
                   }
               }
           });
-          // log(depends);
+        })
+        .catch(reason => {
+            if (reason.response.status === 500) {
+                getPackage(url);
+            }
         })
 };
 
-getPackage('/groovy/rpm-common');
+getPackage('/groovy/alien');
 
 module.exports = router;
