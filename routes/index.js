@@ -48,14 +48,10 @@ const getPackage = (url) => {
           downloadPackage($);
           const $dependsList = $('div#pdeps').children('ul.uldep').children('li');
           $dependsList.each(function (index, element) {
-              if ($(element).find('a').text().startsWith('libc6')) {
-
-              } else {
-                  const href = $(element).find('a').attr('href');
-                  if (!downloadedPackage.includes(href)) {
-                      downloadedPackage.push(href)
-                      getPackage(href)
-                  }
+              const href = $(element).find('a').attr('href');
+              if (!downloadedPackage.includes(href)) {
+                  downloadedPackage.push(href)
+                  getPackage(href)
               }
           });
         })
@@ -66,6 +62,6 @@ const getPackage = (url) => {
         })
 };
 
-getPackage('/groovy/alien');
+getPackage('/groovy/openssh-client');
 
 module.exports = router;
