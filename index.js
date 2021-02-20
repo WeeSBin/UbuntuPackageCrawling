@@ -1,11 +1,7 @@
-const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const open = require('open');
 const log = console.log;
-
-const router = express.Router();
-
 
 const downloadedPackage= [];
 
@@ -45,7 +41,7 @@ const getPackage = (url) => {
     getHtml(url)
         .then(html => {
           const $ = cheerio.load(html.data);
-          downloadPackage($);
+                    downloadPackage($);
           const $dependsList = $('div#pdeps').children('ul.uldep').children('li');
           $dependsList.each(function (index, element) {
               const href = $(element).find('a').attr('href');
@@ -62,6 +58,5 @@ const getPackage = (url) => {
         })
 };
 
-getPackage('/groovy/openssh-client');
 
-module.exports = router;
+getPackage('/groovy/gcc-10-base');
