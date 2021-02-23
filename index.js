@@ -39,10 +39,6 @@ const downloadPackage = ($) => {
     });
 };
 
-/**
- *
- * @param url
- */
 const getPackage = (url) => {
     getHtml(url)
         .then(html => {
