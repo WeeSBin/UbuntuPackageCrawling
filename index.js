@@ -31,7 +31,7 @@ const downloadPackage = ($) => {
                     if (reason.response.status === 500) {
                         downloadPackage($);
                     }
-                })
+                });
             return false;
         }
     });
@@ -46,7 +46,7 @@ const getPackage = (url) => {
           $dependsList.each(function (index, element) {
               const href = $(element).find('a').attr('href');
               if (!downloadedPackage.includes(href)) {
-                  downloadedPackage.push(href)
+                  downloadedPackage.push(href);
                   getPackage(href)
               }
           });
@@ -58,5 +58,10 @@ const getPackage = (url) => {
         })
 };
 
+const myArgs = process.argv.slice(2);
 
-getPackage('/groovy/gcc-10-base');
+if (myArgs[0]) {
+    getPackage(myArgs[0]);
+} else {
+    console.error('Input commandLine Ubuntu package URL like /groovy/libc6')
+}
