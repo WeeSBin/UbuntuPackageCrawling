@@ -29,6 +29,8 @@ const downloadPackage = ($) => {
                 })
                 .catch(reason => {
                     if (reason.response.status === 500) {
+                        // 500 에러는 일시적인 접속 불가로 판단하여 재시도
+                        // 무한 루프의 위험성이 존재한다
                         downloadPackage($);
                     }
                 });
@@ -37,6 +39,10 @@ const downloadPackage = ($) => {
     });
 };
 
+/**
+ *
+ * @param url
+ */
 const getPackage = (url) => {
     getHtml(url)
         .then(html => {
@@ -53,6 +59,8 @@ const getPackage = (url) => {
         })
         .catch(reason => {
             if (reason.response.status === 500) {
+                // 500 에러는 일시적인 접속 불가로 판단하여 재시도
+                // 무한 루프의 위험성이 존재한다
                 getPackage(url);
             }
         })
